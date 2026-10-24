@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Geometry Dash — таблица рекордов</title>
+  <style>
+    :root { color-scheme: dark; font-family: Inter, Segoe UI, Arial, sans-serif; background: #101321; color: #f4f6ff; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; background: radial-gradient(ellipse at 50% 0%, #25345d 0, #101321 55%); }
+    main { width: min(900px, calc(100% - 32px)); margin: 0 auto; padding: 72px 0; }
+    .eyebrow { color: #65e3cb; font-size: 12px; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; }
+    h1 { margin: 10px 0 8px; font-size: clamp(32px, 6vw, 54px); letter-spacing: -.04em; }
+    .subtitle { color: #a8b1cf; margin: 0 0 32px; }
+    .card { overflow: hidden; border: 1px solid #ffffff1a; border-radius: 18px; background: #171b2bd9; box-shadow: 0 24px 70px #0005; }
+    .card-head { display: flex; justify-content: space-between; align-items: center; padding: 22px 24px; border-bottom: 1px solid #ffffff12; }
+    h2 { margin: 0; font-size: 20px; }
+    .live { color: #65e3cb; font-size: 12px; }
+    table { width: 100%; border-collapse: collapse; text-align: left; }
+    th, td { padding: 17px 24px; border-bottom: 1px solid #ffffff0d; }
+    th { color: #8490b2; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
+    tr:last-child td { border-bottom: 0; }
+    td:first-child { color: #65e3cb; font-weight: 800; width: 80px; }
+    .progress-cell { min-width: 190px; }
+    .progress-line { display: flex; align-items: center; gap: 12px; }
+    .track { height: 7px; flex: 1; min-width: 60px; overflow: hidden; border-radius: 99px; background: #ffffff14; }
+    .fill { height: 100%; border-radius: inherit; background: linear-gradient(90deg, #4f9cff, #65e3cb); }
+    .empty { padding: 30px 24px; color: #a8b1cf; }
+    footer { color: #737f9f; font-size: 12px; margin-top: 16px; }
+    @media (max-width: 600px) { main { padding-top: 44px; } th, td { padding: 14px 12px; } th:last-child, td:last-child { display: none; } .progress-cell { min-width: 125px; } }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="eyebrow">Geometry Dash Clone</div>
+    <h1>Таблица рекордов</h1>
+    <p class="subtitle">Лучший прогресс по уровням игры</p>
+    <section class="card" aria-labelledby="leaderboard-title">
+      <div class="card-head"><h2 id="leaderboard-title">Лидерборд</h2><span class="live">● Данные игры</span></div>
+      {% if leaderboard_error %}
+        <p class="empty">{{ leaderboard_error }}</p>
+      {% elif leaderboard %}
+        <table>
+          <thead><tr><th>Место</th><th>Уровень</th><th>Рекорд</th><th>Попытки</th></tr></thead>
+          <tbody>
+            {% for row in leaderboard %}
+              <tr>
+                <td>#{{ row.rank }}</td>
+                <td>{{ row.name }}</td>
+                <td class="progress-cell"><div class="progress-line"><div class="track"><div class="fill" style="width: {{ row.progress }}%"></div></div><strong>{{ row.progress }}%</strong></div></td>
+                <td>{{ row.attempts }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <p class="empty">В таблице пока нет уровней.</p>
+      {% endif %}
+    </section>
+    <footer>Таблица обновляется при загрузке страницы и читает рекорды из базы игры.</footer>
+  </main>
+</body>
+</html>
