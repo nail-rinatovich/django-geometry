@@ -10,8 +10,8 @@ services:
     runtime: python
     plan: free
     rootDir: backend
-    buildCommand: ./build.sh
-    startCommand: ./start.sh
+    buildCommand: ./auqa/build.sh
+    startCommand: ./auqa/start.sh
     healthCheckPath: /
     envVars:
       - key: DJANGO_SECRET_KEY
